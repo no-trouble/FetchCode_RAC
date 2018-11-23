@@ -42,8 +42,9 @@
     RACSignal *signalString = [[command.executing filter:^BOOL(NSNumber * _Nullable value) {
         return ![value boolValue];
     }] mapReplace:@"获取验证码"];
-
+    @weakify(self);
     [[RACSignal merge:@[timerSignal, signalString]] subscribeNext:^(id  _Nullable x) {
+        @strongify(self);
         [self.fetchCodeBtn setTitle:x forState:UIControlStateNormal];
     }];
     
